@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sudzekai/web-os-api/packages/types"
+	"github.com/sudzekai-web-os/types"
 )
 
 type Logger struct {
