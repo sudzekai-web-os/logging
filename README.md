@@ -5,7 +5,7 @@
 ## Установка
 
 ```bash
-go get github.com/sudzekai-web-os/logging@v1.0.1
+go get github.com/sudzekai-web-os/logging
 ```
 
 ## Использование
