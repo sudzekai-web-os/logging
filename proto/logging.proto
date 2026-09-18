@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package logging;
+
+option go_package = "github.com/sudzekai-web-os/logging/proto;proto";
+
+import "google/protobuf/timestamp.proto";
+
+service Logger {
+    rpc Write(LogEntry) returns (WriteResponse);
+    rpc WriteBatch(LogBatch) returns (WriteResponse);
+}
+
+message LogEntry {
+    google.protobuf.Timestamp timestamp = 1;
+
+    string pre_category = 2;
+    string category = 3;
+    string sub_category = 4;
+
+    LogLevel log_level = 5;
+
+    string message = 6;
+}
+
+message LogBatch {
+    repeated LogEntry entries = 1;
+}
+
+message WriteResponse {}
+
+enum LogLevel {
+    NONE = 0;
+    DEBUG = 1;
+    INFORMATION = 2;
+    WARNING = 3;
+    ERROR = 4;
+    CRITICAL = 5;
+}

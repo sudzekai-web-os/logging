@@ -2,14 +2,14 @@ package logging
 
 import (
 	"fmt"
-	"strings"
 	"time"
 
+	"github.com/sudzekai-web-os/abstractions"
 	"github.com/sudzekai-web-os/types"
 )
 
 type Logger struct {
-	factory  *LoggerFactory
+	factory  abstractions.ILoggerFactory
 	category string
 }
 
@@ -18,23 +18,17 @@ func (l *Logger) Log(level types.LogLevel, format string, args ...any) {
 		return
 	}
 
-	writer := l.factory.GetWriter()
-	if writer == nil {
-		return
-	}
+	writers := l.factory.GetWriters()
 
-	fmt.Fprintf(
-		writer,
-		"%s %s %s\n",
-		fmt.Sprintf("\033[90m[%s]\033[0m", time.Now().Format("15:04:05")),
-		fmt.Sprintf("%s", prettifyLogLevel(level)),
-		fmt.Sprintf("\033[90m%s\033[0m", l.category),
-	)
-
-	lines := strings.SplitSeq(fmt.Sprintf(format, args...), "\n")
-
-	for line := range lines {
-		fmt.Fprintf(writer, "           %s\n", line)
+	for _, writer := range writers {
+		writer.Write(types.LogEntry{
+			TimeStamp:   time.Now(),
+			LogLevel:    level,
+			Message:     fmt.Sprintf(format, args...),
+			SubCategory: l.factory.GetSubCategory(),
+			Category:    l.category,
+			PreCategory: l.factory.GetPreCategory(),
+		})
 	}
 }
 
