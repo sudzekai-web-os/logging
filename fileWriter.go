@@ -43,7 +43,7 @@ func writeEntry(file *os.File, entry core.LogEntry) {
 		file,
 		"%s %s %s\n",
 		time.Now().Format("15:04:05"),
-		prettifyLogLevel(entry.LogLevel),
+		levelToString(entry.LogLevel),
 		entry.Category,
 	)
 
