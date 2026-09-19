@@ -6,15 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sudzekai-web-os/abstractions"
-	"github.com/sudzekai-web-os/types"
+	"github.com/sudzekai-web-os/core"
 )
 
 type FileWriter struct {
 	openFile func() *os.File
 }
 
-func NewFileWriter(fileName string) abstractions.ILoggerWriter {
+func NewFileWriter(fileName string) core.ILoggerWriter {
 	return &FileWriter{
 		openFile: func() *os.File {
 			file, _ := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
@@ -23,7 +22,7 @@ func NewFileWriter(fileName string) abstractions.ILoggerWriter {
 	}
 }
 
-func (fw *FileWriter) Write(entry types.LogEntry) {
+func (fw *FileWriter) Write(entry core.LogEntry) {
 	if fw.openFile == nil {
 		return
 	}
@@ -38,7 +37,7 @@ func (fw *FileWriter) Write(entry types.LogEntry) {
 	writeEntry(file, entry)
 }
 
-func writeEntry(file *os.File, entry types.LogEntry) {
+func writeEntry(file *os.File, entry core.LogEntry) {
 
 	fmt.Fprintf(
 		file,
@@ -55,7 +54,7 @@ func writeEntry(file *os.File, entry types.LogEntry) {
 	}
 }
 
-func (fw *FileWriter) WriteBatch(entries []types.LogEntry) {
+func (fw *FileWriter) WriteBatch(entries []core.LogEntry) {
 	if fw.openFile == nil {
 		return
 	}

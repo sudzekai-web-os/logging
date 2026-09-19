@@ -6,21 +6,20 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sudzekai-web-os/abstractions"
-	"github.com/sudzekai-web-os/types"
+	"github.com/sudzekai-web-os/core"
 )
 
 type ConsoleWriter struct {
 	w io.Writer
 }
 
-func NewConsoleWriter(w io.Writer) abstractions.ILoggerWriter {
+func NewConsoleWriter(w io.Writer) core.ILoggerWriter {
 	return &ConsoleWriter{
 		w: w,
 	}
 }
 
-func (cw *ConsoleWriter) Write(entry types.LogEntry) {
+func (cw *ConsoleWriter) Write(entry core.LogEntry) {
 	if cw.w == nil {
 		return
 	}
@@ -40,7 +39,7 @@ func (cw *ConsoleWriter) Write(entry types.LogEntry) {
 	}
 }
 
-func (cw *ConsoleWriter) WriteBatch(entries []types.LogEntry) {
+func (cw *ConsoleWriter) WriteBatch(entries []core.LogEntry) {
 	for _, entry := range entries {
 		cw.Write(entry)
 	}

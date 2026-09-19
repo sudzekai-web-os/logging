@@ -7,9 +7,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/sudzekai-web-os/abstractions"
-	"github.com/sudzekai-web-os/types"
-
+	"github.com/sudzekai-web-os/core"
 	"github.com/sudzekai-web-os/logging/proto"
 )
 
@@ -18,7 +16,7 @@ type GrpcWriter struct {
 	client proto.LoggerClient
 }
 
-func NewGrpcWriter(endpoint string) abstractions.ILoggerWriter {
+func NewGrpcWriter(endpoint string) core.ILoggerWriter {
 	conn, err := grpc.NewClient(
 		endpoint,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -33,7 +31,7 @@ func NewGrpcWriter(endpoint string) abstractions.ILoggerWriter {
 	}
 }
 
-func (gw *GrpcWriter) Write(entry types.LogEntry) {
+func (gw *GrpcWriter) Write(entry core.LogEntry) {
 	if gw.client == nil {
 		return
 	}
@@ -44,7 +42,7 @@ func (gw *GrpcWriter) Write(entry types.LogEntry) {
 	)
 }
 
-func (gw *GrpcWriter) WriteBatch(entries []types.LogEntry) {
+func (gw *GrpcWriter) WriteBatch(entries []core.LogEntry) {
 	if gw.client == nil {
 		return
 	}
@@ -63,7 +61,7 @@ func (gw *GrpcWriter) WriteBatch(entries []types.LogEntry) {
 	)
 }
 
-func logEntryToProto(entry types.LogEntry) *proto.LogEntry {
+func logEntryToProto(entry core.LogEntry) *proto.LogEntry {
 	return &proto.LogEntry{
 		Timestamp:   timestamppb.New(entry.TimeStamp),
 		PreCategory: entry.PreCategory,
@@ -74,19 +72,19 @@ func logEntryToProto(entry types.LogEntry) *proto.LogEntry {
 	}
 }
 
-func logLevelToProto(level types.LogLevel) proto.LogLevel {
+func logLevelToProto(level core.LogLevel) proto.LogLevel {
 	switch level {
-	case types.None:
+	case core.LogLevel_NONE:
 		return proto.LogLevel_NONE
-	case types.Debug:
+	case core.LogLevel_DEBUG:
 		return proto.LogLevel_DEBUG
-	case types.Information:
+	case core.LogLevel_INFORMATION:
 		return proto.LogLevel_INFORMATION
-	case types.Warning:
+	case core.LogLevel_WARNING:
 		return proto.LogLevel_WARNING
-	case types.Error:
+	case core.LogLevel_ERROR:
 		return proto.LogLevel_ERROR
-	case types.Critical:
+	case core.LogLevel_CRITICAL:
 		return proto.LogLevel_CRITICAL
 	default:
 		return proto.LogLevel_NONE

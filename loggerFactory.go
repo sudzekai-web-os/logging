@@ -1,26 +1,23 @@
 package logging
 
-import (
-	"github.com/sudzekai-web-os/abstractions"
-	"github.com/sudzekai-web-os/types"
-)
+import "github.com/sudzekai-web-os/core"
 
 type LoggerFactory struct {
 	preCategory string
 	subCategory string
 
-	writers  []abstractions.ILoggerWriter
-	minLevel types.LogLevel
+	writers  []core.ILoggerWriter
+	minLevel core.LogLevel
 }
 
-func NewLoggerFactory() abstractions.ILoggerFactory {
+func NewLoggerFactory() core.ILoggerFactory {
 	return &LoggerFactory{
-		writers:  make([]abstractions.ILoggerWriter, 0),
-		minLevel: types.None,
+		writers:  make([]core.ILoggerWriter, 0),
+		minLevel: core.LogLevel_NONE,
 	}
 }
 
-func (lf *LoggerFactory) SetPreCategory(category string) abstractions.ILoggerFactory {
+func (lf *LoggerFactory) SetPreCategory(category string) core.ILoggerFactory {
 	lf.preCategory = category
 	return lf
 }
@@ -33,22 +30,22 @@ func (lf *LoggerFactory) GetSubCategory() string {
 	return lf.subCategory
 }
 
-func (lf *LoggerFactory) SetSubCategory(category string) abstractions.ILoggerFactory {
+func (lf *LoggerFactory) SetSubCategory(category string) core.ILoggerFactory {
 	lf.subCategory = category
 	return lf
 }
 
-func (lf *LoggerFactory) AddWriter(w abstractions.ILoggerWriter) abstractions.ILoggerFactory {
+func (lf *LoggerFactory) AddWriter(w core.ILoggerWriter) core.ILoggerFactory {
 	lf.writers = append(lf.writers, w)
 	return lf
 }
 
-func (lf *LoggerFactory) SetMinLevel(level types.LogLevel) {
+func (lf *LoggerFactory) SetMinLevel(level core.LogLevel) {
 	lf.minLevel = level
 }
 
-func (lf *LoggerFactory) Copy() abstractions.ILoggerFactory {
-	writers := make([]abstractions.ILoggerWriter, len(lf.writers))
+func (lf *LoggerFactory) Copy() core.ILoggerFactory {
+	writers := make([]core.ILoggerWriter, len(lf.writers))
 	copy(writers, lf.writers)
 
 	return &LoggerFactory{
@@ -59,15 +56,15 @@ func (lf *LoggerFactory) Copy() abstractions.ILoggerFactory {
 	}
 }
 
-func (lf *LoggerFactory) GetWriters() []abstractions.ILoggerWriter {
+func (lf *LoggerFactory) GetWriters() []core.ILoggerWriter {
 	return lf.writers
 }
 
-func (lf *LoggerFactory) GetMinLevel() types.LogLevel {
+func (lf *LoggerFactory) GetMinLevel() core.LogLevel {
 	return lf.minLevel
 }
 
-func (lf *LoggerFactory) NewLogger(category string) abstractions.ILogger {
+func (lf *LoggerFactory) NewLogger(category string) core.ILogger {
 	return &Logger{
 		factory:  lf,
 		category: category,
