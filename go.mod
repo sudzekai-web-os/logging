@@ -3,7 +3,7 @@ module github.com/sudzekai-web-os/logging
 go 1.26.8
 
 require (
-	github.com/sudzekai-web-os/core v0.0.2
+	github.com/sudzekai-web-os/core v0.0.4
 	google.golang.org/grpc v1.84.0
 	google.golang.org/protobuf v1.36.11
 )
