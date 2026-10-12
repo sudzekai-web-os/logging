@@ -10,17 +10,17 @@
 ## Установка
 
 ```
-dotnet add package SudzekaiWebOS.Logging
+dotnet add package Sudzekai.WebOs.Logging
 ```
 
 ## Использование
 
 ```csharp
-using Logging;
+using Sudzekai.WebOs.Logging;
 
-using var factory = LoggerFactory.CreateConsole(Console.OpenStandardOutput());
+using var factory = LoggerFactory.CreateConsole();
 
-factory.Configure(o => o.MinLevel = Logging.Abstractions.LogLevel.Trace);
+factory.Configure(o => o.MinLevel = Sudzekai.WebOs.Logging.Abstractions.LogLevel.Trace);
 
 var logger = factory.NewLogger("Program");
 
@@ -41,7 +41,7 @@ logger.LogCritical("critical");
 
 ## Sink-и
 
-- `LoggerFactory.CreateConsole(Stream stream)` — запись в консоль.
+- `LoggerFactory.CreateConsole()` — запись в консоль.
 - `LoggerFactory.CreateFile(string fileName)` — запись в файл (append).
 - `LoggerFactory.CreateCustom(params ILogSink[] sinks)` — произвольный набор sink-ов.
 

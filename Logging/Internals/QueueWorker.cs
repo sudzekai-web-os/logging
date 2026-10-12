@@ -1,6 +1,6 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 
-namespace Logging.Internals
+namespace Sudzekai.WebOs.Logging.Internals
 {
     internal sealed class QueueWorker : IAsyncDisposable, IDisposable
     {

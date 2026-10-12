@@ -1,6 +1,6 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 
-namespace Logging
+namespace Sudzekai.WebOs.Logging
 {
     internal class Logger : ILogger
     {

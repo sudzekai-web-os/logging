@@ -1,6 +1,6 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 
-namespace Logging.Sinks.Multiple
+namespace Sudzekai.WebOs.Logging.Sinks.Multiple
 {
     internal class MultipleSink : ILogSink
     {

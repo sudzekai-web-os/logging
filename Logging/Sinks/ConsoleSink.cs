@@ -1,12 +1,10 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 using System.Text;
 
-namespace Logging.Sinks
+namespace Sudzekai.WebOs.Logging.Sinks
 {
-    internal sealed class ConsoleSink(Stream stream) : ILogSink
+    internal sealed class ConsoleSink : ILogSink
     {
-        private Stream _stream = stream;
-
         private StreamWriter? _writer;
         private bool IsOpen;
 
@@ -23,7 +21,7 @@ namespace Logging.Sinks
 
         private void Open()
         {
-            _writer = new(_stream,
+            _writer = new(Console.OpenStandardOutput(),
                 new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
                 bufferSize: 4096,
                 leaveOpen: true)

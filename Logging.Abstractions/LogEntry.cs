@@ -1,4 +1,4 @@
-﻿namespace Logging.Abstractions
+namespace Sudzekai.WebOs.Logging.Abstractions
 {
     public readonly record struct LogEntry(
         DateTime TimeStamp, 

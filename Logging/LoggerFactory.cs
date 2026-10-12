@@ -1,9 +1,9 @@
-﻿using Logging.Abstractions;
-using Logging.Internals;
-using Logging.Sinks;
-using Logging.Sinks.Multiple;
+using Sudzekai.WebOs.Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Internals;
+using Sudzekai.WebOs.Logging.Sinks;
+using Sudzekai.WebOs.Logging.Sinks.Multiple;
 
-namespace Logging
+namespace Sudzekai.WebOs.Logging
 {
     public class LoggerFactory : ILoggerFactory
     {
@@ -20,8 +20,8 @@ namespace Logging
             _worker = new(Queue, sink);
         }
 
-        public static ILoggerFactory CreateConsole(Stream stream)
-            => CreateLoggerFactory(new ConsoleSink(stream));
+        public static ILoggerFactory CreateConsole()
+            => CreateLoggerFactory(new ConsoleSink());
 
         public static ILoggerFactory CreateFile(string fileName)
             => CreateLoggerFactory(new FileSink(fileName));

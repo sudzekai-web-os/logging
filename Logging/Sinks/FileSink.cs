@@ -1,7 +1,7 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 using System.Text;
 
-namespace Logging.Sinks
+namespace Sudzekai.WebOs.Logging.Sinks
 {
     internal sealed class FileSink(string fileName) : ILogSink
     {

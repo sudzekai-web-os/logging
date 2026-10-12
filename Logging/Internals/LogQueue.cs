@@ -1,7 +1,7 @@
-﻿using Logging.Abstractions;
+using Sudzekai.WebOs.Logging.Abstractions;
 using System.Threading.Channels;
 
-namespace Logging.Internals
+namespace Sudzekai.WebOs.Logging.Internals
 {
     internal sealed class LogQueue
     {

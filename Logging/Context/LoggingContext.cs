@@ -1,6 +1,6 @@
-﻿using Logging.Internals;
+using Sudzekai.WebOs.Logging.Internals;
 
-namespace Logging.Context
+namespace Sudzekai.WebOs.Logging.Context
 {
     internal static class LoggingContext
     {
