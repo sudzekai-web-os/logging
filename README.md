@@ -1,26 +1,52 @@
-# logging
+# SudzekaiWebOS.Logging
 
-Потокобезопасная реализация логирования с уровнями, категориями и настраиваемым `io.Writer`.
+Асинхронное потокобезопасное логирование для .NET: уровни, категории, очередь и сменные sink-и (консоль, файл, кастомные).
+
+Состоит из двух пакетов:
+
+- **SudzekaiWebOS.Logging.Abstractions** — интерфейсы и типы: `ILogger`, `ILoggerFactory`, `ILogSink`, `LogEntry`, `LogLevel`, `LoggerFactoryOptions`.
+- **SudzekaiWebOS.Logging** — реализация поверх абстракций.
 
 ## Установка
 
-```bash
-go get github.com/sudzekai-web-os/logging
+```
+dotnet add package SudzekaiWebOS.Logging
 ```
 
 ## Использование
 
-```go
-factory := logging.NewLoggerFactory(os.Stdout)
-factory.SetMinLevel(types.Debug)
+```csharp
+using Logging;
 
-logger := factory.NewLogger("worker")
-logger.LogInformation("запущена обработка: %s", jobID)
-logger.LogError("ошибка обработки: %v", err)
+using var factory = LoggerFactory.CreateConsole(Console.OpenStandardOutput());
+
+factory.Configure(o => o.MinLevel = Logging.Abstractions.LogLevel.Trace);
+
+var logger = factory.NewLogger("Program");
+
+logger.LogTrace("trace");
+logger.LogDebug("debug");
+logger.LogInformation("info");
+logger.LogWarning("warn");
+logger.LogError("error");
+logger.LogCritical("critical");
 ```
 
-Доступны методы `LogDebug`, `LogInformation`, `LogWarning`, `LogError` и `LogCritical`, а также универсальный `Log`.
+Записи складываются в потокобезопасную очередь и записываются отдельным фоновым потоком, поэтому вызовы `Log*` не блокируют вызывающий поток.
 
-По умолчанию минимальный уровень — `types.Information`. Уровень можно задать типом `types.LogLevel` или строкой через `SetMinLevelStr`: поддерживаются `debug`, `info`, `warn`, `error` и `critical`.
+## Конфигурация
 
-Фабрика синхронизирует изменение writer и минимального уровня, поэтому ее можно использовать из нескольких горутин.
+- `factory.Configure(...)` — задаёт минимальный уровень (`o.MinLevel`). Уровни: `Trace`, `Debug`, `Information`, `Warning`, `Error`, `Critical`.
+- `factory.NewLogger(category)` — создаёт логгер с категорией.
+
+## Sink-и
+
+- `LoggerFactory.CreateConsole(Stream stream)` — запись в консоль.
+- `LoggerFactory.CreateFile(string fileName)` — запись в файл (append).
+- `LoggerFactory.CreateCustom(params ILogSink[] sinks)` — произвольный набор sink-ов.
+
+Собственный sink реализуется через `ILogSink.Write(LogEntry entry)`. Синк сам управляет открытием/закрытием ресурса на время записи.
+
+## Лицензия
+
+Apache-2.0 (см. [LICENSE](LICENSE)).

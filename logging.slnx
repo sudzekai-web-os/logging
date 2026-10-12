@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Logging.Abstractions/Logging.Abstractions.csproj" />
+  <Project Path="Logging/Logging.csproj" />
+</Solution>
