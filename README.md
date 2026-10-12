@@ -1,11 +1,11 @@
-# SudzekaiWebOS.Logging
+# Sudzekai.WebOs.Logging
 
 Асинхронное потокобезопасное логирование для .NET: уровни, категории, очередь и сменные sink-и (консоль, файл, кастомные).
 
 Состоит из двух пакетов:
 
-- **SudzekaiWebOS.Logging.Abstractions** — интерфейсы и типы: `ILogger`, `ILoggerFactory`, `ILogSink`, `LogEntry`, `LogLevel`, `LoggerFactoryOptions`.
-- **SudzekaiWebOS.Logging** — реализация поверх абстракций.
+- **Sudzekai.WebOs.Logging.Abstractions** — интерфейсы и типы: `ILogger`, `ILoggerFactory`, `ILogSink`, `LogEntry`, `LogLevel`, `LoggerFactoryOptions`.
+- **Sudzekai.WebOs.Logging** — реализация поверх абстракций.
 
 ## Установка
 
