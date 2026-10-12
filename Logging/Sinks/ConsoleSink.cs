@@ -3,15 +3,22 @@ using System.Text;
 
 namespace Sudzekai.WebOs.Logging.Sinks
 {
-    internal sealed class ConsoleSink : ILogSink
+    public sealed class ConsoleSink : ILogSink
     {
+        private const string Reset = "\u001b[0m";
+        private const string DarkGray = "\u001b[90m";
+
         private StreamWriter? _writer;
         private bool IsOpen;
+
+        public ConsoleSink()
+        {
+        }
 
         private void Close()
         {
             IsOpen = false;
-            
+
             if (_writer == null)
                 return;
 
@@ -40,15 +47,41 @@ namespace Sudzekai.WebOs.Logging.Sinks
             if (_writer == null || !IsOpen)
                 return;
 
-            _writer.Write(entry.TimeStamp.ToString("HH:mm:ss.fff"));
-            _writer.Write(" [");
-            _writer.Write(entry.Level);
-            _writer.Write("] ");
-            _writer.Write(entry.Category);
-            _writer.Write(": ");
-            _writer.WriteLine(entry.Message);
+            var (code, color) = MapLevel(entry.Level);
 
+            _writer.Write(DarkGray);
+            _writer.Write('[');
+            _writer.Write(entry.TimeStamp.ToString("HH:mm:ss"));
+            _writer.Write(']');
+            _writer.Write(Reset);
+
+            _writer.Write(' ');
+            _writer.Write(color);
+            _writer.Write(code.PadRight(4));
+            _writer.Write(Reset);
+
+            _writer.Write(' ');
+            _writer.Write(DarkGray);
+            _writer.Write(entry.Category);
+            _writer.Write(Reset);
+
+            _writer.Write("\n           ");
+            _writer.Write(entry.Message);
+            _writer.Write('\n');
+
+            _writer.Flush();
             Close();
         }
+
+        private static (string code, string color) MapLevel(LogLevel level) => level switch
+        {
+            LogLevel.Trace => ("TRCE", "\u001b[30;47m"),
+            LogLevel.Debug => ("DBUG", "\u001b[39;49m"),
+            LogLevel.Information => ("INFO", "\u001b[34m"),
+            LogLevel.Warning => ("WARN", "\u001b[33m"),
+            LogLevel.Error => ("ERR", "\u001b[31m"),
+            LogLevel.Critical => ("CRIT", "\u001b[37;41m"),
+            _ => ("----", Reset),
+        };
     }
 }

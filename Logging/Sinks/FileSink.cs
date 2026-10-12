@@ -3,10 +3,10 @@ using System.Text;
 
 namespace Sudzekai.WebOs.Logging.Sinks
 {
-    internal sealed class FileSink(string fileName) : ILogSink
+    public sealed class FileSink(string fileName) : ILogSink
     {
         private readonly string _fileName = fileName;
-        
+
         private FileStream? _writer;
         private bool IsOpen;
 
@@ -16,6 +16,9 @@ namespace Sudzekai.WebOs.Logging.Sinks
 
             if (_writer is null)
                 return;
+
+            _writer.Flush();
+            _writer.Dispose();
         }
 
         private void Open()
@@ -41,18 +44,35 @@ namespace Sudzekai.WebOs.Logging.Sinks
             if (_writer is null || !IsOpen)
                 return;
 
+            var code = MapLevel(entry.Level);
+
             var sb = new StringBuilder(64);
 
-            sb.Append(entry.TimeStamp.ToString("HH:mm:ss.fff"))
-              .Append(" [").Append(entry.Level).Append("] ")
-              .Append(entry.Category).Append(" : ")
+            sb.Append('[')
+              .Append(entry.TimeStamp.ToString("HH:mm:ss"))
+              .Append("] ")
+              .Append(code.PadRight(4))
+              .Append(' ')
+              .Append(entry.Category)
+              .Append("\n           ")
               .Append(entry.Message)
-              .Append(Environment.NewLine);
+              .Append('\n');
 
             byte[] buffer = Encoding.UTF8.GetBytes(sb.ToString());
             _writer.Write(buffer, 0, buffer.Length);
 
             Close();
         }
+
+        private static string MapLevel(LogLevel level) => level switch
+        {
+            LogLevel.Trace => "TRCE",
+            LogLevel.Debug => "DBUG",
+            LogLevel.Information => "INFO",
+            LogLevel.Warning => "WARN",
+            LogLevel.Error => "ERR",
+            LogLevel.Critical => "CRIT",
+            _ => "----",
+        };
     }
 }

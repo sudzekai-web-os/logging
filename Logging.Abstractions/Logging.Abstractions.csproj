@@ -7,7 +7,7 @@
 
     <IsPackable>true</IsPackable>
     <PackageId>Sudzekai.WebOs.Logging.Abstractions</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.3</Version>
     <Authors>sudzekai-web-os</Authors>
     <Description>Абстракции для логирования: ILogger, ILoggerFactory, ILogSink, LogEntry и LogLevel. Не содержит реализации.</Description>
     <PackageTags>logging;logger;log;abstractions;interfaces;diagnostics</PackageTags>

@@ -7,7 +7,7 @@
 
     <IsPackable>true</IsPackable>
     <PackageId>Sudzekai.WebOs.Logging</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.3</Version>
     <Authors>sudzekai-web-os</Authors>
     <Description>Асинхронное потокобезопасное логирование для .NET: уровни, категории, очереди и сменные sink-и (консоль, файл, кастомные).</Description>
     <PackageTags>logging;logger;log;aspnet;serilog;log4net;diagnostics;tracing;async;queue;console;file</PackageTags>
